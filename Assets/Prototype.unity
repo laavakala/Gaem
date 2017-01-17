@@ -1177,7 +1177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpHeight: 4
-  timeToJumpApex: 0.4
+  timeToJumpApex: 0.5
 --- !u!61 &1125976464
 BoxCollider2D:
   m_ObjectHideFlags: 0
