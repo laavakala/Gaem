@@ -193,10 +193,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 4
   timeToJumpApex: 0.4
-  wallJumpClimb: {x: 7.5, y: 16}
-  wallJumpOff: {x: 8.5, y: 7}
-  wallLeap: {x: 18, y: 17}
-  wallSlideSpeedMax: 3
 --- !u!114 &114870096716657126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -205,7 +201,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1195626762280182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d46e58884edd6745b7d71c6933ce4f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a19d41975104bd4aa79e17f2c84e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collisionMask:
@@ -216,3 +212,4 @@ MonoBehaviour:
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
   collider: {fileID: 0}
+  playerInput: {x: 0, y: 0}

@@ -1,11 +1,10 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class PlatformController : RaycastController
-{
+public class PlatformController : RaycastController {
 
-    public LayerMask passengerMask;   
+    public LayerMask passengerMask;
 
     public Vector3[] localWaypoints;
     Vector3[] globalWayPoints;
@@ -20,7 +19,6 @@ public class PlatformController : RaycastController
     float percentBetweenWaypoints;
     float nextMoveTime;
 
-
     List<PassengerMovement> passengerMovement;
     Dictionary<Transform, Controller2D> passengerDictionary = new Dictionary<Transform, Controller2D>();
 
@@ -32,6 +30,7 @@ public class PlatformController : RaycastController
         for (int i = 0; i < localWaypoints.Length; i++){
             globalWayPoints[i] = localWaypoints[i] + transform.position;
         }
+       
     }
    
     void Update()  {
@@ -193,7 +192,7 @@ void MovePassengers(bool beforeMovePlatform) {
             float size = .3f;
 
             for(int i = 0; 1 < localWaypoints.Length; i++){
-                Vector3 globalWaypointPos = (Application.isPlaying)?globalWayPoints[i] : localWaypoints[i] + transform.position;
+                Vector3 globalWaypointPos = (Application.isPlaying)?globalWayPoints[i] : localWaypoints[i] + transform.position;            
                 Gizmos.DrawLine(globalWaypointPos - Vector3.up * size, globalWaypointPos + Vector3.up * size);
                 Gizmos.DrawLine(globalWaypointPos - Vector3.left * size, globalWaypointPos + Vector3.left * size);
             }

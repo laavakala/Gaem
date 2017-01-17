@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23110223369881662}
   - component: {fileID: 61397288573067022}
   - component: {fileID: 114211347996655272}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,9 +119,8 @@ MonoBehaviour:
     m_Bits: 256
   localWaypoints:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 4, z: 0}
-  - {x: 4, y: 2, z: 0}
+  - {x: 0, y: 0, z: 0}
   speed: 2
-  cyclic: 1
-  weightTime: 0.2
+  cyclic: 0
+  weightTime: 0
   easeAmount: 1
