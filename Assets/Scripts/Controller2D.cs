@@ -14,30 +14,42 @@ public class Controller2D : RaycastController {
     public override void Start()
     {
         base.Start();
+        collisions.faceDir = 1;
     }
 
-    public void Move(Vector3 velocity){
+    public void Move(Vector3 velocity, bool standingOnPlatform = false){
         UpdateRaycastOrigins();
-
         collisions.Reset();
         collisions.velocityOld = velocity;
+
+        if (velocity.x != 0) {
+            collisions.faceDir = (int)Mathf.Sign(velocity.x);
+        }
 
             if (velocity.y < 0) {
             DescentSlope(ref velocity);
         }
-        if (velocity.x != 0){
-            HorizontalCollisions(ref velocity);
-        }
+        
+        HorizontalCollisions(ref velocity);
+        
         if (velocity.y != 0){
             VerticalCollisions(ref velocity);
         }
         transform.Translate(velocity);
+
+        if (standingOnPlatform == true) {
+            collisions.below = true;
+        }
     }
 
     void HorizontalCollisions(ref Vector3 velocity)
     {
-        float directionX = Mathf.Sign(velocity.x);
+        float directionX = collisions.faceDir;
         float rayLength = Mathf.Abs(velocity.x) + skinWidth;
+
+        if(Mathf.Abs(velocity.x) < skinWidth) {
+            rayLength = 2 * skinWidth;
+        }
 
         for (int i = 0; i < horizontalRayCount; i++)
         {
@@ -48,8 +60,10 @@ public class Controller2D : RaycastController {
             Debug.DrawRay(RayOrigin, Vector2.right * directionX * rayLength, Color.red);
 
             //if raycast hits something set y velocity equal the amount we have to move wtf no comments
-            if (hit)
-            {
+            if (hit) {
+                if(hit.distance == 0) {
+                    continue;
+                }
                 //if raycast detecs slope on the ground execute void ClimbSlope. Cool stuff no idea
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
@@ -173,7 +187,7 @@ public class Controller2D : RaycastController {
         public float slopeAngle, slopeAngleOld;
         public Vector3 velocityOld;
 
-        
+        public int faceDir; 
 
         public void Reset()
         {
