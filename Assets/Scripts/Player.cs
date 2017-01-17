@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<Controller2D>();
 
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        jumpVelocity = -gravity * timeToJumpApex;
         print("Gravity:" + gravity + "Jump Velocity:" + jumpVelocity);
 
     }
@@ -39,26 +39,30 @@ public class Player : MonoBehaviour
         }
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
+        if (Input.GetKeyDown(KeyCode.Space) && (controller.collisions.below || controller.collisions.above) )
         {
+            jumpVelocity = -gravity * timeToJumpApex;
             velocity.y = jumpVelocity;
-        }
-
-        /*  if (Input.GetKey(KeyCode.E))
-          {
-              gravity = 2;
-              Debug.Log("Gravity wooo");
-              controller.transform.Rotate(0, 0, 180);           
-          }*/
+            Debug.Log("jump");
+        }       
 
         //applies the gravity to the velocity on each frame
         float targetVelocityX = input.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+
+        Debug.Log(controller.collisions.below + "\n" + controller.collisions.above);
     }
+    
 
-
-
-
+    public void ReverseGravity()
+    {
+        gravity = gravity * -1;
+        Vector3 newScale = transform.localScale;
+        newScale.y *= -1;
+        transform.localScale = newScale;
+       
+       
+    }
 }
