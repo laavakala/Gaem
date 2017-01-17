@@ -39,12 +39,12 @@ public class Player : MonoBehaviour
         }
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.Space) && (controller.collisions.below || controller.collisions.above) )
+        if (Input.GetKeyDown(KeyCode.Space) && (controller.collisions.below || controller.collisions.above))
         {
             jumpVelocity = -gravity * timeToJumpApex;
             velocity.y = jumpVelocity;
             Debug.Log("jump");
-        }       
+        }
 
         //applies the gravity to the velocity on each frame
         float targetVelocityX = input.x * moveSpeed;
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
 
         Debug.Log(controller.collisions.below + "\n" + controller.collisions.above);
     }
-    
+
 
     public void ReverseGravity()
     {
@@ -62,7 +62,8 @@ public class Player : MonoBehaviour
         Vector3 newScale = transform.localScale;
         newScale.y *= -1;
         transform.localScale = newScale;
-       
-       
+
+
     }
 }
+
