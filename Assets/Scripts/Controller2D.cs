@@ -13,11 +13,14 @@ public class Controller2D : RaycastController
     [HideInInspector]
     public Vector2 playerInput;
 
+    //private Vector2 spawn;
+
     //when the start method is called, first call Raycast Controller's start method then continues this start method
     public override void Start()
     {
         base.Start();
         collisions.faceDir = 1;
+        //spawn = transform.position;
     }
     public void Move(Vector3 velocity, bool standingOnPlatform)
     {
@@ -211,7 +214,20 @@ public class Controller2D : RaycastController
         }
     }
 
+    /* public void OnCollisionEnter2D(Collision2D other)
+     {
+         if (other.gameObject.tag == "Death")
+         {
+             Destroy(gameObject);
+             Debug.Log("You died well");
 
+         }
+     }*/
+    public void Die() {
+        //transform.position = spawn;
+
+        Destroy(gameObject);
+    }
     public struct CollisionInfo
     {
         public bool above, below;

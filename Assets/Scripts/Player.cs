@@ -62,8 +62,7 @@ public class Player : MonoBehaviour
         Vector3 newScale = transform.localScale;
         newScale.y *= -1;
         transform.localScale = newScale;
-
-
     }
+  
 }
 
