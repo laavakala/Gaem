@@ -191,7 +191,7 @@ void MovePassengers(bool beforeMovePlatform) {
             Gizmos.color = Color.red;
             float size = .3f;
 
-            for(int i = 0; 1 < localWaypoints.Length; i++){
+            for(int i = 0; i < localWaypoints.Length; i++){
                 Vector3 globalWaypointPos = (Application.isPlaying)?globalWayPoints[i] : localWaypoints[i] + transform.position;            
                 Gizmos.DrawLine(globalWaypointPos - Vector3.up * size, globalWaypointPos + Vector3.up * size);
                 Gizmos.DrawLine(globalWaypointPos - Vector3.left * size, globalWaypointPos + Vector3.left * size);
