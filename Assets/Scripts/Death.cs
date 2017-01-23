@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Death : Controller2D
+public class Death : MonoBehaviour
 {
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Death")
-        {
-            Die();
+        {            
             Debug.Log("You died well");
-            SceneManager.LoadScene("Prototype");
-
+            Reload();
         }
+    }
+    public void Reload()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        Time.timeScale = 1;
     }
 }
 
