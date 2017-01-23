@@ -100,18 +100,18 @@ void MovePassengers(bool beforeMovePlatform) {
         float directionX = Mathf.Sign(velocity.x);
         float directionY = Mathf.Sign(velocity.y);
 
-        //vertically moving platform
+        // Vertically moving platform
         if (velocity.y != 0)
         {
             float rayLength = Mathf.Abs(velocity.y) + skinWidth;
 
             for (int i = 0; i < verticalRayCount; i++)
             {
-                Vector2 RayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
-                RayOrigin += Vector2.right * (verticalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(RayOrigin, Vector2.up * directionY, rayLength, passengerMask);
+                Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
+                rayOrigin += Vector2.right * (verticalRaySpacing * i);
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, passengerMask);
 
-                if (hit)
+                if (hit && hit.distance != 0)
                 {
                     if (!movedPassengers.Contains(hit.transform))
                     {
@@ -119,25 +119,25 @@ void MovePassengers(bool beforeMovePlatform) {
                         float pushX = (directionY == 1) ? velocity.x : 0;
                         float pushY = velocity.y - (hit.distance - skinWidth) * directionY;
 
-                        passengerMovement.Add(new PassengerMovement(hit.transform,new Vector3(pushX,pushY), directionY ==1, true));
+                        passengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), directionY == 1, true));
                     }
                 }
             }
         }
 
 
-        //Horizontally moving platform
+        // Horizontally moving platform
         if (velocity.x != 0)
         {
-            float rayLength = Mathf.Abs(velocity.y) + skinWidth;
+            float rayLength = Mathf.Abs(velocity.x) + skinWidth;
 
-            for (int i = 0; i < verticalRayCount; i++)
+            for (int i = 0; i < horizontalRayCount; i++)
             {
-                Vector2 RayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
-                RayOrigin += Vector2.right * (verticalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(RayOrigin, Vector2.up * directionY, rayLength, passengerMask);
+                Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
+                rayOrigin += Vector2.up * (horizontalRaySpacing * i);
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, passengerMask);
 
-                if (hit)
+                if (hit && hit.distance != 0)
                 {
                     if (!movedPassengers.Contains(hit.transform))
                     {
@@ -145,21 +145,24 @@ void MovePassengers(bool beforeMovePlatform) {
                         float pushX = velocity.x - (hit.distance - skinWidth) * directionX;
                         float pushY = -skinWidth;
 
-                        passengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), false, true)); ;
+                        passengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), false, true));
                     }
                 }
             }
         }
-        //Passenger on top of a horizontally or downward moving platform
-        if(directionY == -1 || velocity.y == 0 && velocity.x != 0) {
+
+
+        // Passenger on top of a horizontally or downward moving platform
+        if (directionY == -1 || velocity.y == 0 && velocity.x != 0)
+        {
             float rayLength = skinWidth * 2;
 
             for (int i = 0; i < verticalRayCount; i++)
             {
-                Vector2 RayOrigin = raycastOrigins.topLeft + Vector2.right * (verticalRaySpacing * i);
-                RaycastHit2D hit = Physics2D.Raycast(RayOrigin, Vector2.up, rayLength, passengerMask);
+                Vector2 rayOrigin = raycastOrigins.topLeft + Vector2.right * (verticalRaySpacing * i);
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, passengerMask);
 
-                if (hit)
+                if (hit && hit.distance != 0)
                 {
                     if (!movedPassengers.Contains(hit.transform))
                     {
@@ -167,13 +170,15 @@ void MovePassengers(bool beforeMovePlatform) {
                         float pushX = velocity.x;
                         float pushY = velocity.y;
 
-                        passengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), true, false)); ;
+                        passengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), true, false));
                     }
                 }
             }
         }
     }
-    struct PassengerMovement{
+
+    struct PassengerMovement
+    {
         public Transform transform;
         public Vector3 velocity;
         public bool standingOnPlatform;
